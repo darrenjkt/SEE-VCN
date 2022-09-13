@@ -1,0 +1,14 @@
+EXTRA_TAG: ''
+DATASET: 
+    NAME: "nuscenes"
+    CLASSES: ["car"]
+    LIDAR_NSWEEPS: 2
+    DATA_DIR: '/SEE-VCN/data/nuscenes/v1.0-trainval'    
+    CUSTOM_SCENES: True
+    SPLIT: 'train'
+
+SURFACE_COMPLETION:    
+    USE_SEEV1: True
+    VRES: 1.25
+    MIN_LIDAR_PTS: 30
+    REPLACE_DISTANCE_THRESH: 0.1

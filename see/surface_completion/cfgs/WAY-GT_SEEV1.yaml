@@ -1,0 +1,13 @@
+EXTRA_TAG: ''
+DATASET: 
+    NAME: "waymo"
+    CLASSES: ["Vehicle"]
+    DATA_DIR: "/SEE-VCN/data/waymo"
+    SPLIT: "train"
+    SAMPLED_INTERVAL: 150
+
+SURFACE_COMPLETION:    
+    USE_SEEV1: True
+    VRES: 0.31
+    MIN_LIDAR_PTS: 30
+    REPLACE_DISTANCE_THRESH: 0.1

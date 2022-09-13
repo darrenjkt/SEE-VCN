@@ -1,0 +1,33 @@
+EXTRA_TAG: ''
+DATASET: 
+    NAME: "nuscenes"
+    CLASSES: ["car"]    
+    LIDAR_NSWEEPS: 2
+    DATA_DIR: "/SEE-VCN/data/nuscenes/v1.0-trainval"    
+    CUSTOM_SCENES: False
+    SPLIT: "val"
+
+PC_ISOLATION:    
+    IMG_DET:
+        MODEL: "htc_val"
+        CAMERA_CHANNELS: ["CAM_FRONT", "CAM_FRONT_RIGHT", "CAM_BACK_RIGHT", "CAM_BACK", "CAM_BACK_LEFT", "CAM_FRONT_LEFT"]
+        SHRINK_MASK_PERCENTAGE: 3
+
+    VRES: 0.4
+    EPS_SCALING: 4
+    MAX_EPS: 1.0
+    MIN_EPS: 0.0
+
+SURFACE_COMPLETION:    
+    VCN: 
+        MODEL: "VCN_VC"
+        NORM_WITH_GT: False
+        SEL_K_NEAREST: 20
+        CLUSTER_EPS: 0.3
+        BATCH_SIZE_LIMIT: 32
+        CKPT_PATH: "/SEE-VCN/model_zoo/VCN_VC.pth"
+
+    MIN_LIDAR_PTS: 30
+    REPLACE_DISTANCE_THRESH: 0.1
+
+

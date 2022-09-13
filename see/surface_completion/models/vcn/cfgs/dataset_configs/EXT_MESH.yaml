@@ -1,0 +1,8 @@
+NAME: KITTI
+DATA_PATH: data/KITTI/3d_object_detection/exported/vc
+EXT_MESH: True
+
+# data/shapenet/VC/kit-way-nus_vc
+# data/KITTI/3d_object_detection/exported/vc
+# data/nuscenes/custom_t4025-v3980/exported/vc
+# data/waymo/custom_1000/exported/vc

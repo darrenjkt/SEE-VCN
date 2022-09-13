@@ -1,0 +1,3 @@
+[submodule "see/detector2d/mmdetection"]
+	path = see/detector2d/mmdetection
+	url = https://github.com/open-mmlab/mmdetection.git

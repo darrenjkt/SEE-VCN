@@ -1,0 +1,19 @@
+EXTRA_TAG: ''
+DATASET: 
+    NAME: "waymo"
+    CLASSES: ["Vehicle"]
+    DATA_DIR: "/SEE-VCN/data/waymo"
+    SPLIT: "train"
+    SAMPLED_INTERVAL: 30
+
+SURFACE_COMPLETION:    
+    VCN:  
+        MODEL: "VCN_CN"
+        NORM_WITH_GT: True
+        SEL_K_NEAREST: 20
+        CLUSTER_EPS: 0.3
+        BATCH_SIZE_LIMIT: 16
+        CKPT_PATH: "/SEE-VCN/model_zoo/VCN_CN.pth"
+      
+    MIN_LIDAR_PTS: 30
+    REPLACE_DISTANCE_THRESH: 0.1

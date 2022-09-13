@@ -1,0 +1,18 @@
+EXTRA_TAG: ''
+DATASET: 
+    NAME: "custom"
+    CLASSES: ["Car"]
+    DATA_DIR: "/SEE-VCN/data/custom_data/baraja_subsets/test100_all"
+    SPLIT: "test"
+
+SURFACE_COMPLETION:    
+    VCN: 
+        MODEL: "VCN_VC"
+        NORM_WITH_GT: False
+        SEL_K_NEAREST: 10
+        CLUSTER_EPS: 0.2
+        BATCH_SIZE_LIMIT: 32
+        CKPT_PATH: "/SEE-VCN/model_zoo/VCN_VC.pth"
+
+    MIN_LIDAR_PTS: 30    
+    REPLACE_DISTANCE_THRESH: 0.1

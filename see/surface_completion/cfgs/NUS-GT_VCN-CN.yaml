@@ -1,0 +1,20 @@
+EXTRA_TAG: ''
+DATASET: 
+    NAME: "nuscenes"
+    CLASSES: ["car"]
+    LIDAR_NSWEEPS: 2
+    DATA_DIR: '/SEE-VCN/data/nuscenes/v1.0-trainval'    
+    CUSTOM_SCENES: True
+    SPLIT: 'train'
+
+SURFACE_COMPLETION:    
+    VCN: 
+        MODEL: "VCN_CN"
+        NORM_WITH_GT: True
+        SEL_K_NEAREST: 30
+        CLUSTER_EPS: 0.3
+        BATCH_SIZE_LIMIT: 32
+        CKPT_PATH: "/SEE-VCN/model_zoo/VCN_CN.pth"
+        
+    MIN_LIDAR_PTS: 30
+    REPLACE_DISTANCE_THRESH: 0.1

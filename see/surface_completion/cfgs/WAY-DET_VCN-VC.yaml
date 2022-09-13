@@ -1,0 +1,30 @@
+EXTRA_TAG: ''
+DATASET: 
+    NAME: "waymo"
+    CLASSES: ["Vehicle"]
+    DATA_DIR: "/SEE-VCN/data/waymo"
+    SPLIT: "val"
+    SAMPLED_INTERVAL: 1
+
+PC_ISOLATION:    
+    IMG_DET:
+        MODEL: "htc"
+        CAMERA_CHANNELS: ["image_2"]
+        SHRINK_MASK_PERCENTAGE: 3
+
+    VRES: 0.4
+    EPS_SCALING: 4
+    MAX_EPS: 1.0
+    MIN_EPS: 0.0
+
+SURFACE_COMPLETION:    
+    VCN:  
+        MODEL: "VCN_VC"
+        NORM_WITH_GT: True
+        SEL_K_NEAREST: 20
+        CLUSTER_EPS: 0.3
+        BATCH_SIZE_LIMIT: 32
+        CKPT_PATH: "/SEE-VCN/model_zoo/VCN_VC.pth"
+      
+    MIN_LIDAR_PTS: 30
+    REPLACE_DISTANCE_THRESH: 0.1

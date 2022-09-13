@@ -1,0 +1,16 @@
+NAME: VC
+DATA_PATH: /SEE-MTDA/data/shapenet/VC/vc-surface_nviews-20
+N_POINTS: 16384
+USE_NVIEWS_PER_MODEL: 20
+TOTAL_NVIEWS_PER_MODEL: 20
+TRANSFORMS: {
+  train: [{'callback': 'LidarSimulation',
+          'parameters': {},
+          'objects': ['partial']},
+          {'callback': 'ResamplePoints',
+          'parameters': {'n_points': 1024},
+          'objects': ['partial']}],
+  test: [ {'callback': 'ResamplePoints',
+          'parameters': {'n_points': 1024},
+          'objects': ['partial']}]
+}
