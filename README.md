@@ -37,6 +37,8 @@ Please refer to [DATASET_PREPARATION](https://github.com/darrenjkt/SEE-VCN/blob/
 ## Usage
 Please refer to [TRAINING_AND_TESTING](https://github.com/darrenjkt/SEE-VCN/blob/main/docs/TRAINING_AND_TESTING.md) for instructions on training and testing with SEE-VCN.
 
-
-
+# Acknowledgement
+This project builds upon the progress of other outstanding codebases in the computer vision community. We acknowledge the works of the following codebases in our project: 
+- Our instance segmentation code uses [mmdetection](https://github.com/open-mmlab/mmdetection).
+- Our detector code is based on [OpenPCDet v0.3.0](https://github.com/open-mmlab/OpenPCDet/tree/v0.3.0) with DA configurations adopted from [ST3D](https://github.com/CVMI-Lab/ST3D). 
 
