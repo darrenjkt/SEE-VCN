@@ -1,12 +1,14 @@
 # Training and Testing
 
-1. Complete the point clouds. 
+## SEE-VCN Data Augmentation 
 
+### Training
 For training data (source domain), please use the `VCN-CN` configuration to complete the objects. VCN-CN uses the source labels to canonicalize the objects before completing them. 
 ```
 cd see/surface_completion && python sc_multiproc.py --cfg_file cfgs/${*}_GT_VCN-CN.yaml
 ```
 
+### Testing
 For test data (target domain), we need to first get the image instance segmentation masks.
 ```
 cd see/detector2d && bash scripts/htc/${DATASET_MASK}.sh
@@ -15,14 +17,16 @@ Once we have the masks, we can use them to isolate the points before estimating 
 ```
 cd see/surface_completion && python sc_multiproc.py --cfg_file cfgs/${*}_DET_VCN-VC.yaml
 ```
+## OpenPCDet Detector
+We use [OpenPCDet](https://github.com/open-mmlab/OpenPCDet) v0.5.0 and stick closely to the [usage](https://github.com/open-mmlab/OpenPCDet/blob/master/docs/GETTING_STARTED.md) of the original codebase for the training and testing of the 3D detectors. We've reiterated the commands here for ease.
 
-2. Train the 3d detector. Edit the cfg file to ensure that we have the right infos for the source and target domain. Then train with the following:
+### Training
+Edit the config file to ensure that we have the right infos for the source and target domain. Then train with the following:
 ```
 python train.py --cfg_file ${CONFIG_FILE}
 ```
 
-3. Testing
-
+### Testing
 To test with a pretrained model
 ```
 python test.py --cfg_file ${CONFIG_FILE} --batch_size ${BATCH_SIZE} --ckpt ${CKPT}
