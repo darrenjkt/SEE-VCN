@@ -3,9 +3,10 @@ DATASET:
     NAME: "custom"
     CLASSES: ["Car"]
     DATA_DIR: "/SEE-VCN/data/custom_data/baraja_subsets/test100_all"
-    SPLIT: "test"
+    SPLIT: "test"    
 
 PC_ISOLATION:    
+    CAMERA_MODEL: "pinhole"
     IMG_DET:
         MODEL: "htc_x101"
         CAMERA_CHANNELS: ["front"]

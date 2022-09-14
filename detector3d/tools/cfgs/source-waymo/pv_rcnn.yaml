@@ -29,7 +29,7 @@ DATA_CONFIG_TAR:
     TARGET: True
     FOV_POINTS_ONLY: False
     CLASS_NAMES: ['Car']
-    SHIFT_COOR: [0.0, 0.0, 1.8]
+    SHIFT_COOR: [0.0, 0.0, 1.6]
     MIN_POINTS_OF_GT: 50
     INFO_PATH: {
         'train': [],

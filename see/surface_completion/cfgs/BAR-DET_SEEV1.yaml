@@ -6,6 +6,7 @@ DATASET:
     SPLIT: "test"
 
 PC_ISOLATION:    
+    CAMERA_MODEL: "pinhole"
     IMG_DET:
         MODEL: "htc_x101"
         CAMERA_CHANNELS: ["front"]
