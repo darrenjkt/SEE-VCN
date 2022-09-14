@@ -37,7 +37,7 @@ class WaymoObjects:
         self.root_dir = Path(self.cfg.DATA_DIR)
         self.processed_data_dir = self.root_dir / 'waymo_processed_data_v0_5_0'        
         self.config_tag = f'{Path(cfg_path).resolve().stem}_{cfg.EXTRA_TAG}' if cfg.EXTRA_TAG != '' else Path(cfg_path).resolve().stem
-        self.save_dir = self.root_dir / f'partialsc_{self.config_tag}'                        
+        self.save_dir = self.root_dir / f'vcn_{self.config_tag}'                        
 
         if cfg.get('PC_ISOLATION', False):
             self.camera_channels = cfg.PC_ISOLATION.IMG_DET.get('CAMERA_CHANNELS', [])        

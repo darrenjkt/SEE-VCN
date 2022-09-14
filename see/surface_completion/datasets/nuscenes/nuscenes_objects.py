@@ -22,7 +22,7 @@ class NuscenesObjects:
         self.cfg = cfg.DATASET        
         self.root_dir = Path(self.cfg.DATA_DIR)
         self.config_tag = f'{Path(cfg_path).resolve().stem}_{cfg.EXTRA_TAG}' if cfg.EXTRA_TAG != '' else Path(cfg_path).resolve().stem
-        self.save_dir = self.root_dir / 'samples'  / f'partialsc_{self.config_tag}'                
+        self.save_dir = self.root_dir / 'samples'  / f'vcn_{self.config_tag}'                
         self.split = self.cfg.SPLIT
         
         self.version = os.path.basename(self.root_dir)

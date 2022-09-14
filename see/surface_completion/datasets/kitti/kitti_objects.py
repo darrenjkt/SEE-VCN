@@ -21,7 +21,7 @@ class KittiObjects:
         self.classes = self.cfg.CLASSES
         self.root_dir = Path(self.cfg.DATA_DIR)
         self.config_tag = f'{Path(cfg_path).resolve().stem}_{cfg.EXTRA_TAG}' if cfg.EXTRA_TAG != '' else Path(cfg_path).resolve().stem
-        self.save_dir = self.root_dir / 'training' / f'partialsc_{self.config_tag}'                        
+        self.save_dir = self.root_dir / 'training' / f'vcn_{self.config_tag}'                        
         self.split = self.cfg.SPLIT
         self.infos = self.load_infos()
         self.frame_ids = [self.infos[i]['image']['image_idx'] for i in range(len(self.infos))]

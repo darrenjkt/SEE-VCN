@@ -1,5 +1,5 @@
 DATASET: 'SCCustomDataset'
-DATA_PATH: '../../data/custom_data/baraja_subsets/test100_all'
+DATA_PATH: '../../data/custom_data/baraja_v2'
 
 POINT_CLOUD_RANGE: [-75.2, -75.2, -2, 75.2, 75.2, 4]
 

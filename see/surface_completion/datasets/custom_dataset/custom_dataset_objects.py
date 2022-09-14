@@ -22,7 +22,7 @@ class CustomDatasetObjects:
         self.root_dir = Path(self.cfg.DATA_DIR)
         self.config_tag = f'{Path(cfg_path).resolve().stem}_{cfg.EXTRA_TAG}' if cfg.EXTRA_TAG != '' else Path(cfg_path).resolve().stem        
         self.split = self.cfg.SPLIT
-        self.save_dir = self.root_dir / self.split / f'partialsc_{self.config_tag}'                        
+        self.save_dir = self.root_dir / self.split / f'vcn_{self.config_tag}'                        
         self.infos = self.load_infos()
         self.frame_ids = [self.infos[i]['point_cloud']['lidar_idx'] for i in range(len(self.infos))]
 

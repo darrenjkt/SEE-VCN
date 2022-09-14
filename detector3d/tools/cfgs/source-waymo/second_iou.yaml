@@ -25,17 +25,22 @@ DATA_CONFIG:
               WORLD_SCALE_RANGE: [ 0.95, 1.05 ]
 
 DATA_CONFIG_TAR: 
-    _BASE_CONFIG_: cfgs/dataset_configs/sc_kitti_dataset.yaml
+    _BASE_CONFIG_: cfgs/dataset_configs/sc_custom_dataset.yaml
     TARGET: True
     FOV_POINTS_ONLY: False
     CLASS_NAMES: ['Car']
-    SHIFT_COOR: [0.0, 0.0, 1.6]
+    SHIFT_COOR: [0.0, 0.0, 1.8]
     MIN_POINTS_OF_GT: 50
     INFO_PATH: {
         'train': [],
-        'test': [infos_KIT-DET_PARTIALSC_VC_knn_db_knn_db/kitti_infos_val.pkl],
+        'test': [infos_BAR-GT_VCN-VC/baraja_infos_test.pkl],
     }
     POINT_CLOUD_RANGE: [-75.2, -75.2, -2, 75.2, 75.2, 4]
+    TEST:
+        BOX_FILTER: {
+            'FOV_FILTER': True,
+            'LIMIT_RANGE': [-75.2, -75.2, -2, 75.2, 75.2, 4]
+        }
 
 MODEL:
     NAME: SECONDNetIoU
