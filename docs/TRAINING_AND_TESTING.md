@@ -2,6 +2,11 @@
 
 ## SEE-VCN Data Augmentation 
 
+First we need to download the pretrained VCN models:
+```
+bash model_zoo/download_vcn_model.sh
+```
+
 ### Training
 For training data (source domain), please use the `VCN-CN` configuration to complete the objects. VCN-CN uses the source labels to canonicalize the objects before completing them. 
 ```
@@ -36,4 +41,17 @@ python test.py --cfg_file ${CONFIG_FILE} --batch_size ${BATCH_SIZE} --ckpt ${CKP
 To test all the saved checkpoints and draw the tensorboard curve, add `--eval_all`
 ```
 python test.py --cfg_file ${CONFIG_FILE} --batch_size ${BATCH_SIZE} --eval_all
+```
+
+## Example for testing on Baraja dataset with a pretrained model
+```
+# Get instance segmentation masks
+cd /SEE-VCN/see/detector2d && bash scripts/htc/baraja_masks.sh
+
+# Complete surfaces of objects
+cd /SEE-VCN/see/surface_completion && python sc_multiproc.py --cfg_file cfgs/BAR_DET_VCN-VC.yaml
+
+# Test with pretrained detector (SECOND-IoU)
+cd /SEE-VCN/detector3d/tools && python test.py --cfg_file cfgs/source-waymo/second_iou.yaml \
+--batch_size 4 --ckpt /SEE-VCN/model_zoo/waymo_secondiou_see_vcn.pth
 ```
