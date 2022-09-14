@@ -41,7 +41,7 @@ class SEE_VCN:
             self.vres = cfg.SURFACE_COMPLETION.VRES
         else:
             self.use_seev1 = False
-            self.vcn = VCN(cfg=cfg.SURFACE_COMPLETION.PARTIALSC, gpu_id=gpu_id)
+            self.vcn = VCN(cfg=cfg.SURFACE_COMPLETION.VCN, gpu_id=gpu_id)
 
     def get_pcd_gtboxes(self, idx, add_ground_lift=True, ground_lift_height=0.1):
         """

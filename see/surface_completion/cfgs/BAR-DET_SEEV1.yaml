@@ -2,7 +2,7 @@ EXTRA_TAG: ''
 DATASET: 
     NAME: "custom"
     CLASSES: ["Car"]
-    DATA_DIR: "/SEE-VCN/data/custom_data/baraja_subsets/test100_all"
+    DATA_DIR: "/SEE-VCN/data/custom_data/baraja_v2"
     SPLIT: "test"
 
 PC_ISOLATION:    

@@ -2,7 +2,7 @@ EXTRA_TAG: ''
 DATASET: 
     NAME: "custom"
     CLASSES: ["Car"]
-    DATA_DIR: "/SEE-VCN/data/custom_data/baraja_subsets/test100_all"
+    DATA_DIR: "/SEE-VCN/data/custom_data/baraja_v2"
     SPLIT: "test"    
 
 PC_ISOLATION:    
@@ -18,7 +18,7 @@ PC_ISOLATION:
     MIN_EPS: 0.0
 
 SURFACE_COMPLETION:    
-    PARTIALSC: 
+    VCN: 
         MODEL: "VCN_VC"
         NORM_WITH_GT: False
         SEL_K_NEAREST: 10
