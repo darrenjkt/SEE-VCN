@@ -22,15 +22,15 @@ cd detector3d && python setup.py develop
 
 ```
 ## Demo
-We provide a [demo](https://github.com/darrenjkt/SEE-VCN/blob/dev/demo/demo.ipynb) jupyter notebook with demo data. You can place your own dataset into the existing folder structure to visualize the completed point clouds and predicted detection results.
+We provide a [demo](https://github.com/darrenjkt/SEE-VCN/blob/main/demo/demo.ipynb) jupyter notebook with demo data. You can place your own dataset into the existing folder structure to visualize the completed point clouds and predicted detection results.
 
 For the custom dataset, we require time-synced image-point cloud pairs, and a calibration json file for each image-point cloud pair. The calibration file should have the camera instrinsic matrix, extrinsic matrix from lidar to camera, and distortion coefficients. 
 
 ## Dataset Preparation
-Please refer to [DATASET_PREPARATION](https://github.com/darrenjkt/SEE-VCN/blob/dev/docs/DATASET_PREPARATION.md) for instructions on downloading and preparing datasets. 
+Please refer to [DATASET_PREPARATION](https://github.com/darrenjkt/SEE-VCN/blob/main/docs/DATASET_PREPARATION.md) for instructions on downloading and preparing datasets. 
 
 ## Usage
-Please refer to [TRAINING_AND_TESTING](https://github.com/darrenjkt/SEE-VCN/blob/dev/docs/TRAINING_AND_TESTING.md) for instructions on training and testing with SEE-VCN.
+Please refer to [TRAINING_AND_TESTING](https://github.com/darrenjkt/SEE-VCN/blob/main/docs/TRAINING_AND_TESTING.md) for instructions on training and testing with SEE-VCN.
 
 
 
