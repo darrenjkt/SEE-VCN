@@ -9,7 +9,7 @@ from tqdm import tqdm
 from datasets.shared_utils import convert_to_o3dpcd, cfg_from_yaml_file
 import setproctitle
 import open3d as o3d
-from SEEv2 import SEEv2
+from SEE_VCN import SEE_VCN
 import shutil
 
 from torch.multiprocessing import Process, Pool
@@ -18,21 +18,21 @@ def process_gt(sample_idx):
     t0 = time.time()
 
     # Continue where we left off
-    saved_pcd_path = Path(seev2.data_obj.get_save_fname(sample_idx) + '.pcd')
+    saved_pcd_path = Path(see_vcn.data_obj.get_save_fname(sample_idx) + '.pcd')
     if saved_pcd_path.exists():
         pcd = o3d.io.read_point_cloud(str(saved_pcd_path))
         if len(pcd.points) != 0:
             return 0.0, None        
 
-    pcd_gtboxes = seev2.get_pcd_gtboxes(sample_idx)    
+    pcd_gtboxes = see_vcn.get_pcd_gtboxes(sample_idx)    
     if pcd_gtboxes is None:
         return 0.0, None 
 
-    isolated_pts, gt_labels = seev2.isolate_gt_pts(pcd_gtboxes)
-    inst_dict = seev2.complete_gt_pts(isolated_pts, gt_labels)
-    final_pcd = seev2.replace_with_completed_pts(pcd_gtboxes['pcd'], 
+    isolated_pts, gt_labels = see_vcn.isolate_gt_pts(pcd_gtboxes)
+    inst_dict = see_vcn.complete_gt_pts(isolated_pts, gt_labels)
+    final_pcd = see_vcn.replace_with_completed_pts(pcd_gtboxes['pcd'], 
                                                 inst_dict['all_instances'], 
-                                                point_dist_thresh=seev2.replace_distance_thresh)    
+                                                point_dist_thresh=see_vcn.replace_distance_thresh)    
     
     time_taken_frame = time.time() - t0    
     if inst_dict['all_instances'] is not None:
@@ -40,18 +40,18 @@ def process_gt(sample_idx):
     else:
         time_taken_car = None
 
-    seev2.save_pcd(final_pcd, sample_idx)
+    see_vcn.save_pcd(final_pcd, sample_idx)
     return time_taken_frame, time_taken_car
 
 def process_det(sample_idx): 
     t0 = time.time()
 
-    proj_dict = seev2.get_det_instances(sample_idx)
-    isolated_pts = seev2.isolate_det_pts(proj_dict)
-    inst_dict = seev2.complete_det_pts(isolated_pts)
-    final_pcd = seev2.replace_with_completed_pts(convert_to_o3dpcd(seev2.data_obj.get_pointcloud(sample_idx)), 
+    proj_dict = see_vcn.get_det_instances(sample_idx)
+    isolated_pts = see_vcn.isolate_det_pts(proj_dict)
+    inst_dict = see_vcn.complete_det_pts(isolated_pts)
+    final_pcd = see_vcn.replace_with_completed_pts(convert_to_o3dpcd(see_vcn.data_obj.get_pointcloud(sample_idx)), 
                                                 inst_dict['all_instances'], 
-                                                point_dist_thresh=seev2.replace_distance_thresh)  
+                                                point_dist_thresh=see_vcn.replace_distance_thresh)  
 
     time_taken_frame = time.time() - t0
     if inst_dict['all_instances'] is not None:
@@ -59,7 +59,7 @@ def process_det(sample_idx):
     else:
         time_taken_car = None
 
-    seev2.save_pcd(final_pcd, sample_idx)
+    see_vcn.save_pcd(final_pcd, sample_idx)
     return time_taken_frame, time_taken_car
 
 def run(num_proc):
@@ -74,24 +74,24 @@ def run(num_proc):
         process = process_gt
     
     t1 = time.time()
-    sample_indices = range(0, seev2.data_obj.__len__())
+    sample_indices = range(0, see_vcn.data_obj.__len__())
 
     avg_time = []
     print(f'\nGenerating {num_proc} processes')
     mp = Pool(processes=num_proc)
-    time_taken = list(tqdm(mp.imap(process,sample_indices), total=seev2.data_obj.__len__()))
+    time_taken = list(tqdm(mp.imap(process,sample_indices), total=see_vcn.data_obj.__len__()))
     avg_time.extend(time_taken)
     mp.close()
     mp.join()
 
     # Update infos with the meshed paths
-    seev2.data_obj.update_infos()
+    see_vcn.data_obj.update_infos()
 
     avg_frame = [i[0] for i in avg_time]
     avg_car = [i[1] for i in avg_time if i[1] is not None]
     print(f'Average time per frame = {sum(avg_frame)/len(avg_frame):0.5f}s')
     print(f'Average time per car = {sum(avg_car)/len(avg_car):0.5f}s')
-    print(f'Time taken for {seev2.data_obj.__len__()} files: {time.time()-t1}')
+    print(f'Time taken for {see_vcn.data_obj.__len__()} files: {time.time()-t1}')
     
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -111,7 +111,7 @@ def parse_args():
     return args, cfg   
 
 args, cfg = parse_args()    
-seev2 = SEEv2(cfg=cfg, cfg_path=args.cfg_file)
+see_vcn = SEE_VCN(cfg=cfg, cfg_path=args.cfg_file)
 
 if __name__ == "__main__":   
     

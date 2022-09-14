@@ -33,6 +33,7 @@ class CustomDatasetObjects:
             self.mask_dir = self.root_dir / self.split / 'masks' / cfg.PC_ISOLATION.IMG_DET.MODEL
             self.masks = self.load_masks()
             self.shrink_mask_percentage = cfg.PC_ISOLATION.IMG_DET.get('SHRINK_MASK_PERCENTAGE', 0)        
+            self.camera_model = cfg.PC_ISOLATION.CAMERA_MODEL
 
     def __len__(self):
         """
@@ -119,7 +120,13 @@ class CustomDatasetObjects:
         calib_file = self.root_dir / self.split / 'calib'/ f'{idx:06}.json'
         assert calib_file.exists(), f'No calib file found at {calib_file}'
         with open(calib_file) as f:
-            return json.load(f)                           
+            calib_raw =  json.load(f)                           
+
+            calib = {}
+            calib['intrinsic'] = np.array(calib_raw['intrinsic']).reshape((3,3))
+            calib['extrinsic'] = np.array(calib_raw['extrinsic']).reshape((4,4))
+            calib['distcoeff'] = np.array(calib_raw['distcoeff'])
+            return calib
         
     def get_camera_instances(self, idx, channel):
         """
@@ -141,64 +148,49 @@ class CustomDatasetObjects:
         calib = self.get_calibration(idx)
 
         IMG_H, IMG_W, _ = img.shape
-        cameramat = np.array(calib['intrinsic']).reshape((3,3))
-        camera2sensorframe = np.array(calib['extrinsic']).reshape((4,4))
+        cameramat = calib['intrinsic']
+        lidar2cam = calib['extrinsic']
+        distcoeff = calib['distcoeff']
 
         pts_3d_hom = np.hstack((points, np.ones((points.shape[0],1)))).T # (4,N)
-        pts_imgframe = np.dot(camera2sensorframe[:3], pts_3d_hom) # (3,4) * (4,N) = (3,N)
-        image_pts = np.dot(cameramat, pts_imgframe).T # (3,3) * (3,N)
+        pts_imgframe = (lidar2cam[:3,:] @ pts_3d_hom).T # (3,4) * (4,N) = (3,N)        
 
-        image_pts[:,0] /= image_pts[:,2]
-        image_pts[:,1] /= image_pts[:,2]
-        uv = image_pts.copy()
+        tmpxC = pts_imgframe[:,0] / pts_imgframe[:,2]
+        tmpyC = pts_imgframe[:,1] / pts_imgframe[:,2]
+
+        pre_distortion_mask = (pts_imgframe[:,2] > 0) & (abs(tmpxC) < np.arctan(IMG_W/IMG_H)) # Before distortion
+        tmpxC = tmpxC[pre_distortion_mask]
+        tmpyC = tmpyC[pre_distortion_mask]
+        depth = pts_imgframe[:,2][pre_distortion_mask]
+
+        r2 = tmpxC ** 2 + tmpyC ** 2
+        if self.camera_model == "equidistant": # aka. fisheye                        
+            r1 = np.sqrt(r2)
+            a0 = np.arctan(r1)
+            a1 = a0*(1 + distcoeff[0] * (a0**2) + distcoeff[1]* (a0**4) + distcoeff[2]* (a0**6) + distcoeff[3]* (a0**8))
+            u =(a1/r1)*tmpxC
+            v =(a1/r1)*tmpyC
+        elif self.camera_model == "pinhole":
+            tmpdist= 1 + distcoeff[0]*r2 + distcoeff[1]*(r2**2) + distcoeff[4]*(r2**3)
+            u = tmpxC*tmpdist+2*distcoeff[2]*tmpxC*tmpyC+distcoeff[3]*(r2+2*tmpxC**2)
+            v = tmpyC*tmpdist+distcoeff[2]*(r2+2*tmpyC**2)+2*distcoeff[3]*tmpxC*tmpyC
+        else:
+            raise NotImplementedError
+
+        u = (cameramat[0,0]*u + cameramat[0,2])[...,np.newaxis]
+        v = (cameramat[1,1]*v + cameramat[1,2])[...,np.newaxis]
+        uv = np.hstack([u,v, depth[...,np.newaxis]])
+        
         fov_inds =  (uv[:,0] > 0) & (uv[:,0] < IMG_W -1) & \
-                    (uv[:,1] > 0) & (uv[:,1] < IMG_H -1)     
-        fov_inds = fov_inds & (points[:,0]>min_dist)   
+            (uv[:,1] > 0) & (uv[:,1] < IMG_H -1)
 
-        imgfov = {"pc_lidar": points[fov_inds,:],
-                  "pc_cam": image_pts[fov_inds,:], # same as pts_img, just here to keep it consistent across datasets
+        combined_mask = np.zeros(pre_distortion_mask.shape, dtype=np.bool)
+        combined_mask[pre_distortion_mask] = fov_inds
+        imgfov = {"pc_lidar": points[combined_mask,:],
+                  "pc_cam": uv[fov_inds,:], # same as pts_img, just here to keep it consistent across datasets
                   "pts_img": np.round(uv[fov_inds,:],0).astype(int),
-                  "fov_inds": fov_inds,
-                  "img_shape": img.shape[:2] }
+                  "fov_inds": combined_mask }
         return imgfov
-        
-
-    def get_mask_instance_clouds(self, idx, use_bbox=False, min_dist=1.0, shrink_percentage=None):
-        """
-        Returns the individual clouds for each mask instance. 
-        
-        Return: list of (N,4) np arrays (XYZL), each corresponding to one object instance (XYZ points) with a label (L)
-        """
-        if type(self.camera_channels) is not list:
-            self.camera_channels = [self.camera_channels]
-
-        if shrink_percentage == None:
-            shrink_percentage = self.shrink_mask_percentage
-
-        points = self.get_pointcloud(idx)
-        calib = self.get_calibration(idx)
-
-        i_clouds = []
-        for camera_channel in self.camera_channels:                    
-
-            # We only limit the point cloud range when getting instance points. 
-            # Once we got the instances, we concat it with the whole range pcd
-            img = self.get_image(idx, channel=camera_channel)
-
-            # Project to image
-            imgfov = self.map_pointcloud_to_image(points, calib, img, min_dist=min_dist)        
-            instances = self.get_camera_instances(idx, channel=camera_channel)
-            instance_pts = shared_utils.get_pts_in_mask(self.masks[camera_channel], 
-                                                        instances, 
-                                                        imgfov,
-                                                        shrink_percentage=shrink_percentage,
-                                                        use_bbox=use_bbox,
-                                                        labelled_pcd=False)
-
-            filtered_icloud = [x for x in instance_pts['lidar_xyzls'] if len(x) != 0]
-            i_clouds.extend(filtered_icloud)
-        
-        return i_clouds   
 
     def render_pointcloud_in_image(self, idx, 
                                     camera_channel, 

@@ -13,7 +13,7 @@ from datasets.kitti.kitti_objects import KittiObjects
 from datasets.custom_dataset.custom_dataset_objects import CustomDatasetObjects
 from datasets.shared_utils import convert_to_o3dpcd, populate_gtboxes, db_scan, get_pts_in_mask
 
-from models.PartialSC import PartialSC
+from models.VCN import VCN
 # from models.Cluster import Cluster
 
 __DATASETS__ = {
@@ -23,7 +23,7 @@ __DATASETS__ = {
     'custom': CustomDatasetObjects
 }
 
-class SEEv2:
+class SEE_VCN:
     def __init__(self, cfg, cfg_path, gpu_id=0):
         
         self.data_obj = __DATASETS__[cfg.DATASET.NAME]( cfg=cfg, cfg_path=cfg_path)                
@@ -41,7 +41,7 @@ class SEEv2:
             self.vres = cfg.SURFACE_COMPLETION.VRES
         else:
             self.use_seev1 = False
-            self.partialsc = PartialSC(cfg=cfg.SURFACE_COMPLETION.PARTIALSC, gpu_id=gpu_id)
+            self.vcn = VCN(cfg=cfg.SURFACE_COMPLETION.PARTIALSC, gpu_id=gpu_id)
 
     def get_pcd_gtboxes(self, idx, add_ground_lift=True, ground_lift_height=0.1):
         """
@@ -104,11 +104,11 @@ class SEEv2:
 
                 sc_model_ret['all_instances'] = np.vstack(sc_model_ret['coarse'])
             else:
-                sc_model_ret = self.partialsc.inference(isolated_pts, 
+                sc_model_ret = self.vcn.inference(isolated_pts, 
                                                         gtboxes=gt_labels, 
-                                                        batch_size_limit=self.partialsc.batch_size_limit,                                         
-                                                        k=self.partialsc.surface_sel_k,
-                                                        eps=self.partialsc.cluster_eps)
+                                                        batch_size_limit=self.vcn.batch_size_limit,                                         
+                                                        k=self.vcn.surface_sel_k,
+                                                        eps=self.vcn.cluster_eps)
 
                 sc_model_ret['all_instances'] = np.unique(np.vstack(sc_model_ret['clustered']), axis=0)
 
@@ -236,10 +236,10 @@ class SEEv2:
 
                 sc_model_ret['all_instances'] = np.vstack(sc_model_ret['coarse'])
             else:
-                sc_model_ret = self.partialsc.inference( filtered_inst,
-                                                    batch_size_limit=self.partialsc.batch_size_limit,                                         
-                                                    k=self.partialsc.surface_sel_k,
-                                                    eps=self.partialsc.cluster_eps)
+                sc_model_ret = self.vcn.inference( filtered_inst,
+                                                    batch_size_limit=self.vcn.batch_size_limit,                                         
+                                                    k=self.vcn.surface_sel_k,
+                                                    eps=self.vcn.cluster_eps)
 
                 sc_model_ret['all_instances'] = np.unique(np.vstack(sc_model_ret['clustered']), axis=0)
             return sc_model_ret

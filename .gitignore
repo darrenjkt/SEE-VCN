@@ -147,6 +147,5 @@ output
 *.tfevents.*
 *.tar
 *.tar.gz
-*.pcd
 model_zoo
 third_party

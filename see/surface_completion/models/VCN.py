@@ -7,11 +7,11 @@ from pathlib import Path
 import open3d as o3d
 from datasets.shared_utils import convert_to_o3dpcd, populate_gtboxes
 
-from models.partialsc.tools import builder
-from models.partialsc.utils.sampling import get_partial_mesh_batch, get_largest_cluster_batch
-from models.partialsc.datasets.data_transforms import ResamplePoints
+from models.vcn.tools import builder
+from models.vcn.utils.sampling import get_partial_mesh_batch, get_largest_cluster_batch
+from models.vcn.datasets.data_transforms import ResamplePoints
 
-class PartialSC:
+class VCN:
     def __init__(self, cfg, gpu_id=0):
         self.cfg = cfg
 
