@@ -13,6 +13,7 @@ We recommend running this repository with our provided docker image. Simply modi
 ```
 # Start docker container
 bash docker/run.sh
+docker exec -it ${CONTAINER_NAME} /bin/bash
 
 # Install VCN
 cd see/surface_completion && pip install -e . --user
