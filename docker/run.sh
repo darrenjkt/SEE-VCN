@@ -3,7 +3,7 @@
 # Modify these paths and GPU ids
 DATA_PATH="/user/data"
 CODE_PATH="/user/code/SEE-VCN"
-GPU_ID="0"
+GPU_ID="0,1"
 
 ENVS="  --env=NVIDIA_VISIBLE_DEVICES=$GPU_ID
         --env=CUDA_VISIBLE_DEVICES=$GPU_ID
