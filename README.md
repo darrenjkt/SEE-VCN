@@ -17,9 +17,6 @@ We recommend running this repository with our provided docker image. Simply modi
 bash docker/run.sh
 docker exec -it ${CONTAINER_NAME} /bin/bash
 
-## Installation
-We recommend running this repository with our provided docker image. Simply modify the `docker/run.sh` file with your code and file paths then run the following:
-```
 # Start docker container
 bash docker/run.sh
 
@@ -28,7 +25,6 @@ cd see/surface_completion && pip install -e . --user
 
 # Install OpenPCDet v0.5.0
 cd detector3d && python setup.py develop
-
 ```
 ## Demo
 We provide a [demo](https://github.com/darrenjkt/SEE-VCN/blob/main/demo/demo.ipynb) jupyter notebook with demo data. You can place your own dataset into the existing folder structure to visualize the completed point clouds and predicted detection results.
