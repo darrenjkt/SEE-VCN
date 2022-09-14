@@ -6,7 +6,6 @@ First we need to download the pretrained VCN models:
 ```
 bash model_zoo/download_vcn_model.sh
 ```
-
 ### Training
 For training data (source domain), please use the `VCN-CN` configuration to complete the objects. VCN-CN uses the source labels to canonicalize the objects before completing them. 
 ```
@@ -14,8 +13,10 @@ cd see/surface_completion && python sc_multiproc.py --cfg_file cfgs/${*}_GT_VCN-
 ```
 
 ### Testing
+
 For test data (target domain), we need to first get the image instance segmentation masks. Pre-trained instance segmentation models can be obtained from the model zoo of [mmdetection](https://github.com/open-mmlab/mmdetection). Our paper uses 
 Hybrid Task Cascade ([download](https://download.openmmlab.com/mmdetection/v2.0/htc/htc_x101_64x4d_fpn_dconv_c3-c5_mstrain_400_1400_16x1_20e_coco/htc_x101_64x4d_fpn_dconv_c3-c5_mstrain_400_1400_16x1_20e_coco_20200312-946fd751.pth)).
+
 ```
 cd see/detector2d && bash scripts/htc/${DATASET_MASK}.sh
 ```
