@@ -12,8 +12,6 @@ Every autonomous driving dataset has a different configuration of sensors, origi
 
 We also provide a separate standalone repository for [VCN](https://github.com/darrenjkt/VCN) if you'd like to experiment. 
 
-![see_vcn_framework](./docs/see_vcn_framework.png)
-
 ## Installation
 We recommend running this repository with our provided docker image. Simply modify the `docker/run.sh` file with your code and dataset paths then run the following:
 ```
