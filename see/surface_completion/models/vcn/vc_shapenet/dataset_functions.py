@@ -1,11 +1,10 @@
 import random
-from pathlib import Path
 import time
 from tqdm import tqdm
 from pathlib import Path
 import pickle
 import os
-import open3d as o3d # !pip3 install open3d==0.14.1 (has ray casting)
+import open3d as o3d # !pip3 install open3d==0.14.1 (v0.14.1 has ray casting)
 import point_cloud_utils as pcu # !pip install point-cloud-utils
 import csv
 import numpy as np
