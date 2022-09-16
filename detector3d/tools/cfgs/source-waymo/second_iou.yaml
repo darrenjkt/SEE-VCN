@@ -2,7 +2,7 @@ CLASS_NAMES: ['Vehicle']
 
 DATA_CONFIG:
     _BASE_CONFIG_: cfgs/dataset_configs/sc_waymo_dataset.yaml
-    PROCESSED_DATA_TAG: 'partialsc_WAY-GT_SEEV1'
+    PROCESSED_DATA_TAG: 'vcn_WAY-GT_VCN-CN'
     INFO_WITH_FAKELIDAR: False
     MIN_POINTS_OF_GT: 30
     SAMPLED_INTERVAL: {
