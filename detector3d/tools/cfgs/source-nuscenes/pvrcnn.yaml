@@ -7,8 +7,8 @@ DATA_CONFIG:
     SHIFT_COOR: [0.0, 0.0, 1.8]
     MIN_POINTS_OF_GT: 30
     INFO_PATH: {
-        'train': [infos_NUS-GT_PARTIALSC_CN_CUSTOM_t4025/nuscenes_infos_val.pkl],
-        'test': [infos_NUS-GT_PARTIALSC_CN_CUSTOM_t4025/nuscenes_infos_val.pkl],
+        'train': [infos_NUS-GT_VCN-CN/nuscenes_infos_train.pkl],
+        'test': [infos_NUS-GT_VCN-CN/nuscenes_infos_val.pkl],
     }
     POINT_CLOUD_RANGE: [-44.8, -44.8, -2.0, 44.8, 44.8, 4.0]
 

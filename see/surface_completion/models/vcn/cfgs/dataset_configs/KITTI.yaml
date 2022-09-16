@@ -1,6 +1,2 @@
 NAME: KITTI
-DATA_PATH: /SEE-MTDA/data/shapenet/VC/kit-way-nus_vc
-
-# /PoinTr/data/KITTI/3d_object_detection/exported/vc
-# /PoinTr/data/nuscenes/custom_t4025-v3980/exported/vc
-# /PoinTr/data/waymo/custom_1000/exported/vc
+DATA_PATH: /SEE-VCN/data/kit-way-nus-5000

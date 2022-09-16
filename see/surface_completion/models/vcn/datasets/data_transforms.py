@@ -358,10 +358,9 @@ class GlobalRotation(object):
 
         return data
 
-### ----- Normalized Pose/ Fixed Input Transforms from original PoinTr -----
+### ----- Normalized Pose/ Fixed Input Transforms from PoinTr -----
 
 # (Comments for VC dataset) Doesn't work for non-normalized as it places additional points at 0
-# Also not necessary if network can take non-fixed number of points
 class RandomSamplePoints(object):
     def __init__(self, parameters):
         self.n_points = parameters['n_points']
