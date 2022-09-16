@@ -381,7 +381,7 @@ def generate_dataset(data_dir, frames, models,
                      min_pts=30, max_pts=50000, 
                      nviews=20, npoints_complete=16384):
 
-    save_dir = Path(f'/PoinTr/data/shapenet/VC/{dataset_name}_nviews-{nviews}/{dataset_split}')
+    save_dir = Path(f'/VCN/data/shapenet/VC/{dataset_name}_nviews-{nviews}/{dataset_split}')
     save_dir.mkdir(exist_ok=True, parents=True)
     total = nviews * len(models)
     currently_exported = 0
