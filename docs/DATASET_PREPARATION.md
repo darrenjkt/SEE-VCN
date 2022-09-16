@@ -26,5 +26,3 @@ For testing on nuScenes and KITTI, we use the original validation set.
 ### VC-ShapeNet
 You don't need this dataset for SEE-VCN as we provide the pretrained models, however if you'd like to download our VC-ShapeNet dataset, you can download it [here](https://unisyd-my.sharepoint.com/:u:/g/personal/julie_berrioperez_sydney_edu_au/EeB6XBooMkdArv1xgRVMja0BcVvt63C2vzHTi-PjAnpQzQ?e=iyhPWj).
 You can also download our kitti/nuscenes/waymo test dataset [here](https://unisyd-my.sharepoint.com/:u:/g/personal/julie_berrioperez_sydney_edu_au/Ect6piVGprBJsrymXueeHooBiQAn7z2hxUelpECDQOyS3Q?e=H6Jc58).
-
-
