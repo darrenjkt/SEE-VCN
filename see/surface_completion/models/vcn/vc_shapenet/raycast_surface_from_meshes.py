@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append('/PoinTr')
+sys.path.append('/VCN')
 from pathos.pools import ProcessPool
 import glob
 import open3d as o3d
