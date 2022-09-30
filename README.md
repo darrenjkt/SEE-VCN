@@ -10,6 +10,8 @@ Every autonomous driving dataset has a different configuration of sensors, origi
 
 ![see_vcn_framework](./docs/see_vcn_framework.png)
 
+See our **[summary video](https://youtu.be/LB_u8IgiHtw)** for a quick visual explanation of the contributions of our work. 
+
 We also provide a separate standalone repository for [VCN](https://github.com/darrenjkt/VCN) if you'd like to experiment. 
 
 ## Installation
