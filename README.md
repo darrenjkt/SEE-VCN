@@ -2,7 +2,7 @@
 
 This is the official codebase for 
 
-Viewer-Centred Surface Completion for Unsupervised Domain Adaptation in 3D Object Detection
+[ICRA 2023] Viewer-Centred Surface Completion for Unsupervised Domain Adaptation in 3D Object Detection
 
 ### Abstract
 
